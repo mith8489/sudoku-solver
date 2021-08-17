@@ -15,18 +15,35 @@ class Board
  public:
  Board() : grid(SIDE_SIZE, vector<int>(SIDE_SIZE))
     {
-      grid[0][5] = 5;
-      grid[0][2] = 2;
-      grid[0][7] = 7;
-      grid[0][6] = 1;
-      grid[1][2] = 8;
-      grid[2][0] = 9;
-      grid[2][2] = 3;
-      grid[1][0] = 4;
     }
 
-  void findNumber()
+  void set(int i, int j, int val)
   {
+    grid[i][j] = val;
+  }
+
+  void findNumbers()
+  {
+    bool foundNumber = false;
+
+    do
+      {
+        for (int i = 0; i < SIDE_SIZE; i++)
+          {
+            for (int j = 0; j < SIDE_SIZE; j++)
+              {
+
+              }
+          }
+      }
+    while (!foundNumber);
+  }
+
+  void findNumber(int row, int col)
+  {
+    vector<vector<int>> subGrid = getSubGrid(0, 0);
+    print2DVector(subGrid);
+
     vector<int> posNums = {1,2,3,4,5,6,7,8,9};
     for (int i = 0; i < SIDE_SIZE; i++)
       {
@@ -36,18 +53,24 @@ class Board
           }
       }
 
+    for (int i = 0; i < SIDE_SIZE; i++)
+      {
+        if (grid[i][0] != 0)
+          {
+            removeNum(grid[0][i], posNums);
+          }
+      }
+
     for (int i = 0; i < SUB_GRID_SIZE; i++)
       {
         for (int j = 0; j < SUB_GRID_SIZE; j++)
           {
-            if (grid[i][j] != 0)
+            if (subGrid[i][j] != 0)
               {
-                removeNum(grid[i][j], posNums);
+                removeNum(subGrid[i][j], posNums);
               }
           }
       }
-
-    printPosNums(posNums);
 
     if (posNums.size() == 1)
       {
@@ -62,11 +85,31 @@ class Board
       {
         if (num == posNums[i])
           {
-            cout << "Found match: " << posNums[i] << endl;
             posNums.erase(posNums.begin() + i);
           }
 
       }
+  }
+
+  vector<vector<int>> getSubGrid(int m, int n)
+  {
+    int row;
+    int col;
+    if (m < 3) row = 0;
+    if (m >= 3 && m < 6) row = 3;
+    if (m >= 6) row = 6;
+
+    if (n < 3) col = 0;
+    if (n >= 3 && m < 6) col = 3;
+    if (n >= 6) col = 6;
+
+    vector<vector<int>> subGrid;
+    for (int i = row; i < row + 3; i++)
+      {
+        vector<int> v(grid[i].begin() + col, grid[i].begin() + col + 3);
+        subGrid.push_back(v);
+      }
+    return subGrid;
   }
 
   void printPosNums(vector<int> posNums)
@@ -74,6 +117,18 @@ class Board
     for(int j = 0; j < posNums.size(); j++)
       {
         cout << posNums[j] << endl;
+      }
+  }
+
+  void print2DVector(vector<vector<int>> v)
+  {
+    for (int i = 0; i < v.size(); i++)
+      {
+        for (int j = 0; j < v[0].size(); j++)
+          {
+            cout << v[i][j] << "  ";
+          }
+        cout << endl;
       }
   }
 

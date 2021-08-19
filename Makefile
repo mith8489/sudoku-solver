@@ -1,6 +1,6 @@
 
 run:
-	g++ -o sudoku sudoku.cpp
+	g++ -o sudoku -Wall sudoku.cpp
 	./sudoku
 
 clean:
